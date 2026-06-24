@@ -35,8 +35,8 @@ export function Header() {
             <rect width="28" height="28" rx="6" fill="#0F172A" />
             <path d="M7 9L14 6L21 9V14C21 18.4 17.5 21.8 14 23C10.5 21.8 7 18.4 7 14V9Z" fill="white" />
           </svg>
-          <span className="text-lg font-bold text-red-500">
-            NICEMP TESTE 123
+          <span className="text-lg font-bold" style={{ color: "#0F172A" }}>
+            nicemp
           </span>
         </a>
 
@@ -81,14 +81,21 @@ export function Header() {
           <div className="text-xs text-slate-500">
             {profile?.email || user?.email}
           </div>
-        </div>
+          </div>
 
-          <a
-            href="/gerencie/perfil"
-            className="rounded-xl border px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50"
-            >
-            Perfil
-            </a>
+              <a
+                  href="/gerencie/empresas"
+                  className="rounded-xl border px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50"
+                >
+                  Empresas
+                </a>
+
+                <a
+                  href="/gerencie/perfil"
+                  className="rounded-xl border px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50"
+                >
+                  Perfil
+              </a>
 
           <button
               onClick={async () => {

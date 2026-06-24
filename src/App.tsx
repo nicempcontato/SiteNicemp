@@ -22,6 +22,8 @@ import { ArticlePage } from "@/pages/ArticlePage";
 import { AuthCallbackPage } from "@/pages/auth/AuthCallbackPage";
 import { CompleteCpfPage } from "@/pages/auth/CompleteCpfPage";
 import { LoginPage } from "@/pages/auth/LoginPage";
+import { ProfilePage } from "@/pages/manage/ProfilePage";
+import { CompaniesPage } from "@/pages/manage/CompaniesPage";
 
 const queryClient = new QueryClient();
 
@@ -37,13 +39,7 @@ function IndicatorsPage() {
   return <div>Indicadores</div>;
 }
 
-function ProfilePage() {
-  return <div>Meu Perfil</div>;
-}
 
-function CompaniesPage() {
-  return <div>Empresas</div>;
-}
 
 function LandingPage() {
   return (
@@ -95,6 +91,7 @@ function App() {
             <ProtectedRoute>
               <IndicatorsPage />
             </ProtectedRoute>
+          </Route>
           <Route path="/gerencie/perfil">
             <ProtectedRoute>
               <ProfilePage />
@@ -106,7 +103,6 @@ function App() {
               <CompaniesPage />
             </ProtectedRoute>
           </Route>  
-          </Route>
           <Route path="/aprenda/:slug" component={ArticlePage} />
           <Route path="/aprenda" component={LearnPage} />
           <Route path="/roi" component={ROICalculator} />
