@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { cashflowRows, companies, dreRows, indicators } from "@/data/finance";
 import { formatBRL } from "@/utils/format";
 
-export function ManagePage() {
+export function DashboardPage() {
   return (
     <AppLayout>
       <PageContainer className="pb-20">

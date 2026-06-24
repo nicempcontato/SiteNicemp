@@ -1,3 +1,4 @@
+import { DashboardPage } from "@/pages/manage/DashboardPage";
 import LearnPage from "@/pages/LearnPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Switch, Route } from "wouter";
@@ -21,9 +22,28 @@ import { ArticlePage } from "@/pages/ArticlePage";
 import { AuthCallbackPage } from "@/pages/auth/AuthCallbackPage";
 import { CompleteCpfPage } from "@/pages/auth/CompleteCpfPage";
 import { LoginPage } from "@/pages/auth/LoginPage";
-import { ManagePage } from "@/pages/manage/ManagePage";
 
 const queryClient = new QueryClient();
+
+function DrePage() {
+  return <div>DRE</div>;
+}
+
+function CashflowPage() {
+  return <div>Fluxo de Caixa</div>;
+}
+
+function IndicatorsPage() {
+  return <div>Indicadores</div>;
+}
+
+function ProfilePage() {
+  return <div>Meu Perfil</div>;
+}
+
+function CompaniesPage() {
+  return <div>Empresas</div>;
+}
 
 function LandingPage() {
   return (
@@ -58,23 +78,34 @@ function App() {
           </Route>
           <Route path="/gerencie">
             <ProtectedRoute>
-              <ManagePage />
+              <DashboardPage />
             </ProtectedRoute>
           </Route>
           <Route path="/gerencie/dre">
             <ProtectedRoute>
-              <ManagePage />
+               <DrePage />
             </ProtectedRoute>
           </Route>
           <Route path="/gerencie/fluxo-de-caixa">
             <ProtectedRoute>
-              <ManagePage />
+              <CashflowPage />
             </ProtectedRoute>
           </Route>
           <Route path="/gerencie/indicadores">
             <ProtectedRoute>
-              <ManagePage />
+              <IndicatorsPage />
             </ProtectedRoute>
+          <Route path="/gerencie/perfil">
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          </Route>
+
+          <Route path="/gerencie/empresas">
+            <ProtectedRoute>
+              <CompaniesPage />
+            </ProtectedRoute>
+          </Route>  
           </Route>
           <Route path="/aprenda/:slug" component={ArticlePage} />
           <Route path="/aprenda" component={LearnPage} />

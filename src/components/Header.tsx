@@ -1,7 +1,11 @@
+import { useAuth } from "@/hooks/use-auth";
+import { signOut } from "@/services/auth/auth-service";
 import { useEffect, useState } from "react";
 import { routes } from "@/constants/routes";
 
+
 export function Header() {
+  const { user, profile } = useAuth();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -13,7 +17,7 @@ export function Header() {
   const navItems = [
     { label: "Inicio", href: routes.home },
     { label: "Ferramentas", href: routes.toolsHome },
-    { label: "Gerencie", href: routes.manage },
+    ...(user ? [{ label: "Painel", href: routes.manage }] : []),
     { label: "Aprenda", href: routes.academy },
     { label: "Solucoes", href: routes.solutions },
     { label: "Planos", href: routes.plans },
@@ -48,25 +52,57 @@ export function Header() {
             </a>
           ))}
         </nav>
-
         <div className="flex items-center gap-3">
-          <a
-            href={routes.login}
-            className="hidden rounded-xl border px-4 py-2 text-sm font-medium text-slate-900 transition-colors hover:bg-gray-50 sm:inline-flex"
-            style={{ borderColor: "#E5E7EB" }}
-            data-testid="btn-entrar"
-          >
-            Entrar
-          </a>
-          <a
-            href={routes.signUp}
-            className="inline-flex rounded-xl px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-            style={{ background: "#16A34A" }}
-            data-testid="btn-criar-conta"
-          >
-            Criar conta gratis
-          </a>
+          {!user ? (
+            <>
+              <a
+                href={routes.login}
+                className="hidden rounded-xl border px-4 py-2 text-sm font-medium text-slate-900 transition-colors hover:bg-gray-50 sm:inline-flex"
+                style={{ borderColor: "#E5E7EB" }}
+              >
+                Entrar
+              </a>
+
+              <a
+                href={routes.signUp}
+                className="inline-flex rounded-xl px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                style={{ background: "#16A34A" }}
+              >
+                Criar conta grátis
+              </a>
+            </>
+          ) : (
+            <>
+        <div className="hidden text-right md:block">
+          <div className="text-sm font-semibold text-slate-900">
+            {profile?.nome || user?.email?.split("@")[0] || "Usuário"}
+          </div>
+
+          <div className="text-xs text-slate-500">
+            {profile?.email || user?.email}
+          </div>
         </div>
+
+          <a
+            href="/gerencie/perfil"
+            className="rounded-xl border px-4 py-2 text-sm font-medium text-slate-900 hover:bg-slate-50"
+            >
+            Perfil
+            </a>
+
+          <button
+              onClick={async () => {
+                await signOut();
+                window.location.href = "/";
+              }}
+              className="rounded-xl bg-red-50 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-100"
+            >
+            Sair
+          </button>
+            </>
+          )}
+        </div>    
+        
       </div>
     </header>
   );
