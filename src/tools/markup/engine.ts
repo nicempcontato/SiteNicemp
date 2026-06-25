@@ -1,0 +1,4 @@
+﻿import type { FinancialConfig } from "@/architecture/types";
+import type { MarkupInput, MarkupResult } from "@/tools/markup/types";
+import { validateMarkupInput } from "@/tools/markup/validation";
+export function calculateMarkupWithConfig(input: MarkupInput, config: FinancialConfig): { errors: Record<string, string>; result: MarkupResult | null } { const errors = validateMarkupInput(input, config) as Record<string, string>; if (Object.keys(errors).length > 0) return { errors, result: null }; const multiplier = 100 / (100 - input.expensesPercent - input.marginPercent); const salePrice = input.cost * multiplier; const expectedProfit = salePrice - input.cost - (salePrice * input.expensesPercent) / 100; const costPerCurrencyUnit = salePrice / input.cost; return { errors: {}, result: { salePrice, multiplier, expectedProfit, cost: input.cost, expensesPercent: input.expensesPercent, marginPercent: input.marginPercent, costPerCurrencyUnit } }; }

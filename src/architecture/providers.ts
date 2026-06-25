@@ -1,0 +1,12 @@
+﻿import type { ConfigMap, ConfigVersion, ExportConfig, FinancialConfig, HRConfig, ImportConfig, ModuleKey, SeoConfig, TaxConfig, ToolDefinition, ToolField, ToolKey, ToolSettings, UUID } from "@/architecture/types";
+
+export interface SaveConfigMetadata { actorId: UUID; reason: string; }
+export interface ConfigurationProvider { getModuleConfig<TKey extends ModuleKey>(moduleKey: TKey): Promise<ConfigMap[TKey]>; saveModuleConfig<TKey extends ModuleKey>(moduleKey: TKey, config: ConfigMap[TKey], metadata: SaveConfigMetadata): Promise<ConfigVersion<ConfigMap[TKey]>>; getVersionHistory(moduleKey: ModuleKey, entityKey?: string): Promise<ConfigVersion[]>; rollback(versionId: UUID, metadata: SaveConfigMetadata): Promise<ConfigVersion>; subscribe?(moduleKey: ModuleKey, onChange: () => void): () => void; }
+export interface ToolProvider { listTools(): Promise<ToolDefinition[]>; getTool(toolKey: ToolKey): Promise<ToolDefinition>; getToolSettings(toolKey: ToolKey): Promise<ToolSettings[]>; getToolFields(toolKey: ToolKey): Promise<ToolField[]>; saveToolSettings(toolKey: ToolKey, settings: ToolSettings[], metadata: SaveConfigMetadata): Promise<void>; }
+export interface FinancialProvider { getFinancialConfig(): Promise<FinancialConfig>; saveFinancialConfig(config: FinancialConfig, metadata: SaveConfigMetadata): Promise<ConfigVersion<FinancialConfig>>; }
+export interface TaxProvider { getTaxConfig(): Promise<TaxConfig>; saveTaxConfig(config: TaxConfig, metadata: SaveConfigMetadata): Promise<ConfigVersion<TaxConfig>>; }
+export interface HRProvider { getHRConfig(): Promise<HRConfig>; saveHRConfig(config: HRConfig, metadata: SaveConfigMetadata): Promise<ConfigVersion<HRConfig>>; }
+export interface ImportProvider { getImportConfig(): Promise<ImportConfig>; saveImportConfig(config: ImportConfig, metadata: SaveConfigMetadata): Promise<ConfigVersion<ImportConfig>>; }
+export interface ExportProvider { getExportConfig(): Promise<ExportConfig>; saveExportConfig(config: ExportConfig, metadata: SaveConfigMetadata): Promise<ConfigVersion<ExportConfig>>; }
+export interface SEOProvider { getSeoConfig(routeOrToolKey: string): Promise<SeoConfig | null>; listSeoConfig(): Promise<SeoConfig[]>; saveSeoConfig(config: SeoConfig, metadata: SaveConfigMetadata): Promise<ConfigVersion<SeoConfig>>; }
+export interface ProviderRegistry { configuration: ConfigurationProvider; tools: ToolProvider; financial: FinancialProvider; tax: TaxProvider; hr: HRProvider; import: ImportProvider; export: ExportProvider; seo: SEOProvider; }

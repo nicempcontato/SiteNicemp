@@ -1,0 +1,14 @@
+﻿import { isSupabaseConfigured } from "@/config/env";
+import { ConfigurationService, ExportService, FinancialService, GeneralService, HRService, ImportService, SEOService, TaxService, ToolService } from "@/architecture/services";
+import { createLocalProviderRegistry } from "@/architecture/local-provider";
+import { createSupabaseProviderRegistry } from "@/architecture/supabase-provider";
+const providers = isSupabaseConfigured ? createSupabaseProviderRegistry() : createLocalProviderRegistry();
+export const configurationService = new ConfigurationService(providers);
+export const toolService = new ToolService(providers);
+export const financialService = new FinancialService(configurationService);
+export const taxService = new TaxService(configurationService);
+export const hrService = new HRService(configurationService);
+export const importService = new ImportService(configurationService);
+export const exportService = new ExportService(configurationService);
+export const generalService = new GeneralService(configurationService);
+export const seoService = new SEOService(providers);

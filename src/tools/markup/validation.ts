@@ -1,0 +1,4 @@
+﻿import type { FinancialConfig } from "@/architecture/types";
+import { validateRange } from "@/architecture/validation";
+import type { MarkupInput, MarkupValidationErrors } from "@/tools/markup/types";
+export function validateMarkupInput(input: MarkupInput, config: FinancialConfig): MarkupValidationErrors { const errors: MarkupValidationErrors = {}; const costError = validateRange(input.cost, config.markup.cost); const expensesError = validateRange(input.expensesPercent, config.markup.expenses_percent); const marginError = validateRange(input.marginPercent, config.markup.margin_percent); if (costError) errors.cost = costError; if (expensesError) errors.expensesPercent = expensesError; if (marginError) errors.marginPercent = marginError; if (input.expensesPercent + input.marginPercent >= config.markup.combined_percent_limit.value) errors.marginPercent = config.markup.combined_percent_limit.message; return errors; }

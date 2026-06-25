@@ -1,0 +1,6 @@
+﻿import { defaultConfiguration } from "@/architecture/defaults";
+import { calculateMarkupWithConfig } from "@/tools/markup/engine";
+import { parseCurrency, parsePercent } from "@/utils/format";
+
+export interface MarkupResult { precoVenda: number; multiplicador: number; lucroEsperado: number; custo: number; despesas: number; margem: number; custoPorReal: number; }
+export function calculateMarkup(custoStr: string, despesasStr: string, margemStr: string) { const custo = parseCurrency(custoStr); const despesas = parsePercent(despesasStr); const margem = parsePercent(margemStr); const calculated = calculateMarkupWithConfig({ cost: custo, expensesPercent: despesas, marginPercent: margem }, defaultConfiguration.financial); if (!calculated.result) return { errs: { custo: calculated.errors.cost, despesas: calculated.errors.expensesPercent, margem: calculated.errors.marginPercent }, result: null }; return { errs: {}, result: { precoVenda: calculated.result.salePrice, multiplicador: calculated.result.multiplier, lucroEsperado: calculated.result.expectedProfit, custo: calculated.result.cost, despesas: calculated.result.expensesPercent, margem: calculated.result.marginPercent, custoPorReal: calculated.result.costPerCurrencyUnit } }; }
